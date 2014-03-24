@@ -1,1 +1,8 @@
 #!/bin/bash
+
+if [ ! -e /aerogear-markers/init ]; then
+  # generate secret token
+  true
+fi
+
+exec /opt/jboss-eap-6.2/bin/launch $@
