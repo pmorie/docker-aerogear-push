@@ -1,8 +1,14 @@
 #!/bin/bash
 
-if [ ! -e /aerogear-markers/init ]; then
+if [ ! -e /aerogear/init ]; then
   # generate secret token
+  echo "Generating Aerogear Secret Key..."
+  /aerogear/generate-push-token-key
+  touch /aerogear/init
+  echo "...done"
   true
 fi
 
-exec /opt/jboss-eap-6.2/bin/launch $@
+push_token_key=$(</aerogear/push_token_key)
+
+AEROGEAR_PUSH_TOKEN_KEY=$push_token_key exec /opt/jboss-eap-6.2/bin/launch standalone -c standalone-ha.xml -b 0.0.0.0 $@
