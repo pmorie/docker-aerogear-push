@@ -1,0 +1,36 @@
+#!/bin/bash
+
+# Generate a random string from /dev/urandom
+# Arguments:
+#  - Desired length (optional)
+#  - Possible character space (optional)
+#  - Patterns to omit (optional)
+function random_string {
+  local DEFAULT_SPACE="a-zA-Z0-9"
+  local DEFAULT_LEN=12
+
+  local len=${1-$DEFAULT_LEN}
+  local space=${2-"$DEFAULT_SPACE"}
+  local omit=${3-""}
+
+  local rnd=$(head -n 50 /dev/urandom | tr -dc $space | fold -w $len)
+  [ -n "${omit}" ] && rnd=$(echo "${rnd}" | grep -v "${omit}")
+  echo $(echo "${rnd}" | head -n1)
+}
+
+# Generate a password
+# Arguments:
+#  - Desired length (optional)
+#  - Character space (optional)
+#  - Ignore pattern (optional)
+function generate_key {
+  local DEFAULT_LEN=12
+  local DEFAULT_CHAR="a-np-zA-NP-Z1-9-_" #Dash, underscore, Alphanumeric except o,O,0
+  local DEFAULT_IGNORE="^-"
+
+  echo $(random_string ${1-$DEFAULT_LEN} ${2-$DEFAULT_CHAR} ${3-$DEFAULT_IGNORE})
+}
+
+new_key=generate_key
+echo "New Aerogear Push Token Key: $new_key"
+echo "$new_key" > /aerogear/push_token_key
