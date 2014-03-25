@@ -31,6 +31,6 @@ function generate_key {
   echo $(random_string ${1-$DEFAULT_LEN} ${2-$DEFAULT_CHAR} ${3-$DEFAULT_IGNORE})
 }
 
-new_key=generate_key
+new_key=$(generate_key)
 echo "New Aerogear Push Token Key: $new_key"
 echo "$new_key" > /aerogear/push_token_key
