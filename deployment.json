@@ -1,0 +1,29 @@
+{
+  "idprefix": "aerogear",
+  "containers":[
+    {
+      "name":"web",
+      "count":1,
+      "image":"pmorie/aerogear-push",
+      "publicports":[
+        {"internal":8080,
+         "external":0}
+      ],
+      "links":[
+        {"to":"db"}
+      ]
+    },
+    {
+      "name":"db",
+      "count":1,
+      "image":"pmorie/fedora-mariadb",
+      "publicports":[
+        {"internal":3306,
+         "external":0}
+      ],
+      "links":[
+        {"to":"db"}
+      ]
+    }
+  ]
+}
